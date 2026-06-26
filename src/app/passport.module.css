@@ -1,0 +1,400 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #022c22 0%, #0f172a 100%);
+  color: #f1f5f9;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 1.2rem;
+  position: relative;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #34d399, #059669);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.scientificName {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.badgeRow {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.badgeThriving {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badgeAttention {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badgeCritical {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.offlineAlert {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 12px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #f87171;
+  margin-bottom: 0.5rem;
+}
+
+.scoreContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 1rem 0;
+}
+
+.scoreCircle {
+  transform: rotate(-90deg);
+}
+
+.scoreTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 10;
+}
+
+.scoreValue {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s ease-in-out, stroke 0.5s ease;
+}
+
+.scoreText {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreNum {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.scoreLabel {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+}
+
+.predictions {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.predictionItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.predictionIcon {
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.predictionIconBlue {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.predictionText {
+  display: flex;
+  flex-direction: column;
+}
+
+.predictionLabel {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.predictionVal {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.sensorGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.sensorCard {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.sensorCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sensorInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sensorIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.sensorMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.sensorName {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.sensorValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.sensorStatus {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.statusIdeal {
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+}
+
+.statusWarning {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+}
+
+.statusAlert {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+}
+
+.sparklineSection {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.sparklineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.sparklineTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.sparklinePeriod {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.sparklineWrapper {
+  height: 60px;
+  width: 100%;
+}
+
+.waterButton {
+  background: linear-gradient(to right, #059669, #0d9488);
+  border: none;
+  border-radius: 14px;
+  color: white;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+}
+
+.waterButton:hover {
+  background: linear-gradient(to right, #10b981, #06b6d4);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3);
+}
+
+.waterButton:active {
+  transform: translateY(1px);
+}
+
+.profileSection {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 1.2rem;
+}
+
+.profileTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #34d399;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profileDesc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.profileDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.profileDetailItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileDetailLabel {
+  font-size: 0.7rem;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.profileDetailVal {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
