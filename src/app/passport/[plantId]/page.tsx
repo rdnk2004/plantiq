@@ -3,11 +3,6 @@
 import { use, useEffect, useState } from "react";
 import { useSimulation } from "@/utils/simulationState";
 import { PLANT_PROFILES } from "@/utils/profiles";
-import { 
-  calculateMoistureScore, 
-  calculateTempScore, 
-  calculateLightScore 
-} from "@/utils/algorithms";
 import styles from "@/app/passport.module.css";
 import { 
   Droplet, 
@@ -45,6 +40,7 @@ export default function PassportPage({ params }: PageProps) {
 
   // Prevent hydration mismatch
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -113,7 +109,6 @@ export default function PassportPage({ params }: PageProps) {
 
   // Dynamic sparkline generator based on active healthScore to show stability
   const generateSparklinePath = () => {
-    const baselineY = 20; // middle
     // Generate a set of points that ends at the current healthScore mapping
     const mappedScoreY = 30 - (healthScore / 100) * 25; // 5 to 30 range
     

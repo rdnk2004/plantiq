@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { PlantProfile, PLANT_PROFILES } from "./profiles";
-import { calculateHealthScore, predictHoursToWatering, isAnomaly } from "./algorithms";
+import { PLANT_PROFILES } from "./profiles";
+import { calculateHealthScore, predictHoursToWatering } from "./algorithms";
 
 export interface SimulationState {
   plantId: string;
@@ -217,19 +217,18 @@ export const useSimulation = (plantId: string) => {
       setState((prev) => {
         // 1. Soil slowly dries out over time (raw moisture value increases)
         // A standard drying speed, with a bit of randomness
-        let moistureDelta = Math.round(1 + Math.random() * 2);
+        const moistureDelta = Math.round(1 + Math.random() * 2);
         
         // If the plant is already bone dry, don't exceed 4095
-        let newMoisture = Math.min(4095, prev.moistureRaw + moistureDelta);
+        const newMoisture = Math.min(4095, prev.moistureRaw + moistureDelta);
 
         // 2. Temperature fluctuates slightly around its current value
-        let tempDelta = (Math.random() - 0.5) * 0.4;
-        let newTemp = Math.round((prev.tempC + tempDelta) * 10) / 10;
-        newTemp = constrainTemp(newTemp);
+        const tempDelta = (Math.random() - 0.5) * 0.4;
+        const newTemp = constrainTemp(Math.round((prev.tempC + tempDelta) * 10) / 10);
 
         // 3. Light fluctuates slightly based on noise
-        let lightDelta = Math.round((Math.random() - 0.5) * 10);
-        let newLight = Math.max(0, Math.min(1023, prev.lightRaw + lightDelta));
+        const lightDelta = Math.round((Math.random() - 0.5) * 10);
+        const newLight = Math.max(0, Math.min(1023, prev.lightRaw + lightDelta));
 
         // If offline, accumulate flash storage count
         const newOfflineCount = prev.isOffline ? prev.offlineReadingsCount + 1 : prev.offlineReadingsCount;

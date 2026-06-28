@@ -23,34 +23,47 @@ const dailyData = [
   { day: 'Sat', dayFullName: 'Saturday', score: 72 },
   { day: 'Sun', dayFullName: 'Sunday', score: 76 },
 ];
+interface TooltipPayload {
+  payload: {
+    day: string;
+    dayFullName: string;
+    score: number;
+  };
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayload[];
+}
+
+// Custom Tooltip component for the bar chart
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="bg-[#161922] border border-gray-800/80 p-3 rounded-xl shadow-xl">
+        <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">{data.dayFullName}</p>
+        <p className="text-sm font-extrabold text-white mt-1">
+          Average Health: <span className={data.day === 'Fri' ? 'text-red-400' : 'text-[#1D9E75]'}>{data.score}/100</span>
+        </p>
+        {data.day === 'Fri' && (
+          <p className="text-xs text-red-400 mt-1.5 font-semibold flex items-center gap-1">
+            ⚠️ Heat stress detected &mdash; 38°C recorded
+          </p>
+        )}
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function HistoryPage() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
-
-  // Custom Tooltip component for the bar chart
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div className="bg-[#161922] border border-gray-800/80 p-3 rounded-xl shadow-xl">
-          <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">{data.dayFullName}</p>
-          <p className="text-sm font-extrabold text-white mt-1">
-            Average Health: <span className={data.day === 'Fri' ? 'text-red-400' : 'text-[#1D9E75]'}>{data.score}/100</span>
-          </p>
-          {data.day === 'Fri' && (
-            <p className="text-xs text-red-400 mt-1.5 font-semibold flex items-center gap-1">
-              ⚠️ Heat stress detected &mdash; 38°C recorded
-            </p>
-          )}
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="min-h-screen bg-[#0F1117] text-gray-100 font-sans flex flex-col justify-between p-4 sm:p-6 lg:p-8">

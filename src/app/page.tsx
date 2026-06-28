@@ -14,12 +14,8 @@ import {
   Droplet, 
   Thermometer, 
   Sun, 
-  Wifi, 
   WifiOff, 
-  Settings, 
-  AlertTriangle, 
-  Activity,
-  HeartPulse
+  Settings
 } from 'lucide-react';
 
 // Data points for the 24-hour charts
@@ -93,13 +89,13 @@ export default function DashboardPage() {
   const [lightRaw, setLightRaw] = useState(725); // 0-1023
   
   // Dashboard Status States
-  const [score, setScore] = useState(76);
   const [isOffline, setIsOffline] = useState(false);
   const [isSimOpen, setIsSimOpen] = useState(false);
   const [secondsSinceUpdate, setSecondsSinceUpdate] = useState(120);
   const [activeTab, setActiveTab] = useState<MetricTab>('health');
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -146,11 +142,7 @@ export default function DashboardPage() {
     return Math.round(mScore * 0.5 + tScore * 0.3 + lScore * 0.2);
   };
 
-  // Update score when inputs change
-  useEffect(() => {
-    const computedScore = calculateScore(moistureRaw, tempC, lightRaw);
-    setScore(computedScore);
-  }, [moistureRaw, tempC, lightRaw]);
+  const score = calculateScore(moistureRaw, tempC, lightRaw);
 
   // Simulated live random fluctuations every 30 seconds
   useEffect(() => {

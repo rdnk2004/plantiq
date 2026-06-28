@@ -123,7 +123,7 @@ export default function AboutPage() {
             ✨ Why Tulsi?
           </h3>
           <p className="text-sm text-gray-300 leading-relaxed font-normal">
-            Tulsi is one of the most sacred plants in Indian culture and one of the most medicinally significant herbs in Ayurveda. It is also highly sensitive to environmental changes &mdash; making it the perfect plant to demonstrate PlantIQ's multi-sensor health monitoring. A small change in temperature or moisture immediately reflects in its health score.
+            Tulsi is one of the most sacred plants in Indian culture and one of the most medicinally significant herbs in Ayurveda. It is also highly sensitive to environmental changes &mdash; making it the perfect plant to demonstrate PlantIQ&apos;s multi-sensor health monitoring. A small change in temperature or moisture immediately reflects in its health score.
           </p>
         </section>
 
@@ -135,6 +135,7 @@ export default function AboutPage() {
           <div className="w-40 h-40 bg-gray-900 border border-gray-800/80 rounded-xl flex items-center justify-center overflow-hidden shadow-inner p-2">
             {/* Image tag pointing to /qr.png */}
             {/* Falls back cleanly to styling / border representation if qr.png does not exist */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/qr.png" 
               alt="Live Dashboard QR Code"
