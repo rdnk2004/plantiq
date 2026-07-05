@@ -20,7 +20,7 @@ export interface SimulationState {
 
 // Generate reasonable initial state for a plant profile
 export const getInitialState = (plantId: string): SimulationState => {
-  const profile = PLANT_PROFILES[plantId] || PLANT_PROFILES.money_plant;
+  const profile = PLANT_PROFILES[plantId] || PLANT_PROFILES.tulsi;
   
   // Set initial values right in the middle of their ideal ranges
   const initialMoisture = Math.round((profile.moistureMin + profile.moistureMax) / 2);
@@ -40,7 +40,7 @@ export const getInitialState = (plantId: string): SimulationState => {
         id: "init-" + Date.now(),
         timestamp: new Date(Date.now() - 4 * 3600000).toISOString(),
         type: "info",
-        message: `System initialized for ${profile.name}. Calibration complete.`
+        message: `R.D.N.K. Botanicals telemetry link online for ${profile.name}. Specimen calibration complete.`
       }
     ]
   };
@@ -49,7 +49,7 @@ export const getInitialState = (plantId: string): SimulationState => {
 const LOCAL_STORAGE_KEY_PREFIX = "plantiq_sim_";
 
 export const useSimulation = (plantId: string) => {
-  const profile = PLANT_PROFILES[plantId] || PLANT_PROFILES.money_plant;
+  const profile = PLANT_PROFILES[plantId] || PLANT_PROFILES.tulsi;
   const storageKey = `${LOCAL_STORAGE_KEY_PREFIX}${plantId}`;
 
   const [state, setState] = useState<SimulationState>(() => {
@@ -66,6 +66,20 @@ export const useSimulation = (plantId: string) => {
     }
     return getInitialState(plantId);
   });
+
+  // Active high-frequency jitter state (simulating real ADC signal fluctuation)
+  const [jitter, setJitter] = useState({ moisture: 0, temp: 0, light: 0 });
+
+  useEffect(() => {
+    const jitterInterval = setInterval(() => {
+      setJitter({
+        moisture: Math.round((Math.random() - 0.5) * 8), // +/- 4 raw units
+        temp: Math.round((Math.random() - 0.5) * 20) / 100, // +/- 0.1 °C
+        light: Math.round((Math.random() - 0.5) * 6), // +/- 3 raw units
+      });
+    }, 800);
+    return () => clearInterval(jitterInterval);
+  }, []);
 
   // Save to localStorage when state changes
   useEffect(() => {
@@ -119,7 +133,7 @@ export const useSimulation = (plantId: string) => {
             id: "online-" + Date.now(),
             timestamp: new Date().toISOString(),
             type: "system",
-            message: `Wi-Fi reconnected. Batch uploaded ${prev.offlineReadingsCount} stored readings to cloud.`
+            message: `Wi-Fi reconnected. Batch uploaded ${prev.offlineReadingsCount} stored readings to R.D.N.K. cloud.`
           },
           ...prev.alertHistory
         ];
@@ -135,14 +149,14 @@ export const useSimulation = (plantId: string) => {
             id: "dry-" + Date.now(),
             timestamp: new Date().toISOString(),
             type: "dry",
-            message: `Dry Soil Alert: Moisture at ${newState.moistureRaw}. Water recommended.`
+            message: `Dry Soil Alert: Moisture at ${newState.moistureRaw}. Irrigation suggested.`
           });
         } else if (newState.moistureRaw < profile.moistureMin && prev.moistureRaw >= profile.moistureMin) {
           alertsToAdd.push({
             id: "overwater-" + Date.now(),
             timestamp: new Date().toISOString(),
             type: "overwater",
-            message: `Overwatering Warning: Soil moisture is high (${newState.moistureRaw}).`
+            message: `Saturation Warning: Soil moisture is high (${newState.moistureRaw}).`
           });
         }
 
@@ -152,14 +166,14 @@ export const useSimulation = (plantId: string) => {
             id: "heat-" + Date.now(),
             timestamp: new Date().toISOString(),
             type: "heat",
-            message: `Heat Stress: Temperature reached ${newState.tempC}°C (Ideal max: ${profile.tempMax}°C).`
+            message: `Thermal Stress: Temperature reached ${newState.tempC}°C (Ideal max: ${profile.tempMax}°C).`
           });
         } else if (newState.tempC < profile.tempMin && prev.tempC >= profile.tempMin) {
           alertsToAdd.push({
             id: "cold-" + Date.now(),
             timestamp: new Date().toISOString(),
             type: "cold",
-            message: `Cold Stress: Temperature dropped to ${newState.tempC}°C (Ideal min: ${profile.tempMin}°C).`
+            message: `Chill Stress: Temperature dropped to ${newState.tempC}°C (Ideal min: ${profile.tempMin}°C).`
           });
         }
 
@@ -176,7 +190,7 @@ export const useSimulation = (plantId: string) => {
             id: "bright-" + Date.now(),
             timestamp: new Date().toISOString(),
             type: "bright",
-            message: `Excessive Sunlight: Light level is high (${newState.lightRaw}).`
+            message: `Excessive Irradiation: Light level is high (${newState.lightRaw}).`
           });
         }
 
@@ -199,7 +213,7 @@ export const useSimulation = (plantId: string) => {
         id: "water-" + Date.now(),
         timestamp: new Date().toISOString(),
         type: "info" as const,
-        message: `Plant watered. Moisture restored from ${prev.moistureRaw} to ${healthyMoisture}.`
+        message: `Drip irrigation executed. Hydration restored to baseline.`
       };
 
       return {
@@ -215,18 +229,15 @@ export const useSimulation = (plantId: string) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setState((prev) => {
-        // 1. Soil slowly dries out over time (raw moisture value increases)
-        // A standard drying speed, with a bit of randomness
+        // Soil slowly dries out over time (raw moisture value increases)
         const moistureDelta = Math.round(1 + Math.random() * 2);
-        
-        // If the plant is already bone dry, don't exceed 4095
         const newMoisture = Math.min(4095, prev.moistureRaw + moistureDelta);
 
-        // 2. Temperature fluctuates slightly around its current value
+        // Temperature fluctuates slightly
         const tempDelta = (Math.random() - 0.5) * 0.4;
         const newTemp = constrainTemp(Math.round((prev.tempC + tempDelta) * 10) / 10);
 
-        // 3. Light fluctuates slightly based on noise
+        // Light fluctuates slightly based on noise
         const lightDelta = Math.round((Math.random() - 0.5) * 10);
         const newLight = Math.max(0, Math.min(1023, prev.lightRaw + lightDelta));
 
@@ -241,30 +252,42 @@ export const useSimulation = (plantId: string) => {
           offlineReadingsCount: newOfflineCount
         };
       });
-    }, 4000); // simulation tick every 4 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
-  // Helper to keep temp within reasonable physical limits (10°C to 45°C) for the simulation
+  // Helper to keep temp within physical limits
   const constrainTemp = (t: number) => Math.max(10, Math.min(45, t));
 
-  // Compute stats on the fly
-  const healthScore = calculateHealthScore(state.moistureRaw, state.tempC, state.lightRaw, profile);
+  // Compute dynamically fluctuating telemetry fields (adding active jitter)
+  const moistureRawWithJitter = Math.max(0, Math.min(4095, state.moistureRaw + jitter.moisture));
+  const tempCWithJitter = Math.max(10, Math.min(45, state.tempC + jitter.temp));
+  const lightRawWithJitter = Math.max(0, Math.min(1023, state.lightRaw + jitter.light));
+
+  // Compute health score on the fly
+  const rawHealthScore = calculateHealthScore(moistureRawWithJitter, tempCWithJitter, lightRawWithJitter, profile);
   
-  // Calculate predicted watering window based on current moisture and an assumed drying rate
-  // Let's assume a slow drying rate in our simulation of about 20 raw units per hour (or compute it)
-  // For the presentation, we can make this look realistic:
-  const assumedDryingRateRawPerHour = 45; // raw units per hour
+  // Damp the health index so it hovers dynamically under 90% (real plants aren't sterile 100s)
+  const healthScore = rawHealthScore >= 95
+    ? Math.round(83 + (Math.abs(moistureRawWithJitter) % 5)) // hovers 83-87
+    : Math.round(rawHealthScore * 0.88);
+
+  const assumedDryingRateRawPerHour = 45;
   const predictedHours = predictHoursToWatering(
-    state.moistureRaw,
-    state.moistureRaw - 5, // mock previous reading to show drying
+    moistureRawWithJitter,
+    moistureRawWithJitter - 5,
     5 / assumedDryingRateRawPerHour,
     profile.moistureMax
   );
 
   return {
-    state,
+    state: {
+      ...state,
+      moistureRaw: moistureRawWithJitter,
+      tempC: tempCWithJitter,
+      lightRaw: lightRawWithJitter,
+    },
     profile,
     healthScore,
     predictedHours,

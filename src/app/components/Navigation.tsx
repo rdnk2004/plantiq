@@ -2,14 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Activity, History, UserCircle } from 'lucide-react';
 
 export default function Navigation() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: 'Home', href: '/', icon: '🏠' },
-    { name: 'History', href: '/history', icon: '📊' },
-    { name: 'About', href: '/about', icon: '🌿' },
+    { name: "Today's Analytics", href: '/', icon: Activity },
+    { name: "7-Day History", href: '/history', icon: History },
+    { name: "Owner Profile", href: '/user', icon: UserCircle },
   ];
 
   return (
@@ -22,6 +23,7 @@ export default function Navigation() {
         <div className="flex items-center gap-8">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
+            const Icon = item.icon;
             return (
               <Link
                 key={item.href}
@@ -30,7 +32,7 @@ export default function Navigation() {
                   isActive ? 'text-[#1D9E75]' : 'text-gray-400 hover:text-gray-200'
                 }`}
               >
-                <span className="text-base">{item.icon}</span>
+                <Icon className="w-4 h-4" />
                 <span>{item.name}</span>
               </Link>
             );
@@ -42,6 +44,7 @@ export default function Navigation() {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#161922] border-t border-gray-800/80 px-6 py-3 flex justify-around items-center z-50 shadow-lg">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
+          const Icon = item.icon;
           return (
             <Link
               key={item.href}
@@ -50,7 +53,7 @@ export default function Navigation() {
                 isActive ? 'text-[#1D9E75]' : 'text-gray-500 hover:text-gray-300'
               }`}
             >
-              <span className="text-xl leading-none">{item.icon}</span>
+              <Icon className="w-5 h-5" />
               <span>{item.name}</span>
             </Link>
           );

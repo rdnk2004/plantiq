@@ -1,14 +1,23 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
+  --color-obsidian: #07080A;
+  --color-brand-green: #3CE7A8;
+  --color-brand-copper: #C87A53;
+  --color-brand-gold: #D4AF37;
+}
+
 :root {
-  --background: #0F1117;
-  --foreground: #f1f5f9;
+  --background: #07080A;
+  --foreground: #F8FAFC;
 }
 
 body {
-  background-color: #0F1117;
-  color: #f1f5f9;
-  font-family: var(--font-plus-jakarta), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #07080A;
+  color: #F8FAFC;
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
   margin: 0;
   padding: 0;
 }

@@ -14,6 +14,20 @@ export interface PlantProfile {
 }
 
 export const PLANT_PROFILES: Record<string, PlantProfile> = {
+  tulsi: {
+    id: "tulsi",
+    name: "Tulsi (Holy Basil)",
+    scientificName: "Ocimum tenuiflorum",
+    description: "Holy Basil (Tulsi) is a sacred, highly medicinal herb in Ayurveda. It thrives in warm temperatures, consistent moisture, and bright indirect sunlight.",
+    moistureMin: 800,
+    moistureMax: 1800,
+    tempMin: 20,
+    tempMax: 35,
+    lightMin: 300,
+    lightMax: 900,
+    wateringInterval: "Every 2-3 days",
+    placement: "Bright indirect sunlight / outdoors"
+  },
   cactus: {
     id: "cactus",
     name: "Desert Cactus",
