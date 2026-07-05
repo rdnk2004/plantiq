@@ -109,6 +109,15 @@ export default function DashboardPage() {
     setIsMounted(true);
   }, []);
 
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-obsidian text-brand-green/80 flex items-center justify-center font-serif italic text-sm gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-ping"></span>
+        Ingesting telemetry registry...
+      </div>
+    );
+  }
+
   // Map raw values to percentages
   const moisturePct = Math.round(((4095 - state.moistureRaw) / 4095) * 100);
   const lightPct = Math.round((state.lightRaw / 1023) * 100);
@@ -222,7 +231,7 @@ export default function DashboardPage() {
             <div>
               <p className="text-xs font-bold text-gray-200 font-serif">Verified Organic Telemetry Baseline</p>
               <p className="text-[10px] text-gray-500 mt-0.5">
-                Capacitive soil monitoring active. Valuation: <span className="text-brand-green font-bold">₹350 / $14.99</span> (Smart Terracotta included).
+                Capacitive soil monitoring active. Valuation: <span className="text-brand-green font-bold">₹350</span> (Smart Terracotta included).
               </p>
             </div>
           </div>
@@ -256,7 +265,7 @@ export default function DashboardPage() {
               Biometric Vigor
             </span>
             
-            <div className={`relative flex items-center justify-center w-44 h-44 rounded-full bg-[#07080A]/60 border shadow-2xl transition-all duration-700 ${glowColor} mt-4`}>
+            <div className={`relative flex items-center justify-center w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-[#07080A]/60 border shadow-2xl transition-all duration-700 ${glowColor} mt-4`}>
               <div className="absolute inset-0 rounded-full bg-brand-green/[0.02] blur-xl" />
               
               <svg className="w-full h-full transform -rotate-90 scale-95" viewBox="0 0 200 200">
@@ -302,59 +311,107 @@ export default function DashboardPage() {
           </div>
 
           {/* Environmental Sensors */}
-          <div className="md:col-span-7 flex flex-col gap-4">
+          <div className="md:col-span-7 flex flex-col gap-3">
             
-            {/* 3-Row Telemetry Matrix */}
-            <div className="grid grid-cols-3 gap-3">
-              {/* Moisture Card (Copper Clay Theme) */}
-              <div className="p-4 rounded-xl bg-[#141210]/40 border border-brand-copper/10 flex flex-col justify-between hover:border-brand-copper/30 transition-all duration-300 group">
-                <div className="flex justify-between items-center text-brand-copper">
-                  <Droplet className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-[8px] font-extrabold tracking-wider uppercase bg-brand-copper/5 px-1.5 py-0.5 rounded border border-brand-copper/10">
+            {/* Biometric Sensor Ledger List */}
+            <div className="flex flex-col gap-3">
+              {/* Moisture Row */}
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#141210]/40 border border-brand-copper/10 hover:border-brand-copper/30 transition-all duration-300 gap-3 group">
+                <div className="flex items-center gap-3 min-w-[95px] sm:min-w-[140px]">
+                  <div className="p-2 rounded-lg bg-brand-copper/10 text-brand-copper">
+                    <Droplet className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-gray-200 block font-serif">Soil Hydration</span>
+                    <span className="text-[8px] text-gray-500 block font-mono">Target: 50%-70%</span>
+                  </div>
+                </div>
+
+                <div className="flex-1 max-w-[160px] h-1 bg-gray-950 rounded-full overflow-hidden border border-white/[0.02] hidden min-[380px]:block">
+                  <div 
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      moisturePct >= 50 && moisturePct <= 70 ? 'bg-brand-green' : 'bg-brand-copper'
+                    }`}
+                    style={{ width: `${moisturePct}%` }}
+                  />
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="text-base font-bold font-serif text-white">{moisturePct}%</span>
+                  <span className={`text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                    moisturePct >= 50 && moisturePct <= 70 
+                      ? 'bg-brand-green/5 text-brand-green border-brand-green/10' 
+                      : 'bg-brand-copper/5 text-brand-copper border-brand-copper/10'
+                  }`}>
                     {moisturePct >= 50 && moisturePct <= 70 ? 'Ideal' : moisturePct < 50 ? 'Dry' : 'Saturated'}
                   </span>
                 </div>
-                <div className="mt-4">
-                  <span className="text-[9px] font-bold text-gray-500 block uppercase tracking-wider">Moisture</span>
-                  <span className="text-2xl font-bold font-serif text-white mt-0.5 block">{moisturePct}%</span>
-                </div>
-                <span className="text-[8px] text-gray-600 block mt-3 border-t border-gray-900 pt-1.5">
-                  Target: 50%-70%
-                </span>
               </div>
 
-              {/* Temperature Card (Green Theme) */}
-              <div className="p-4 rounded-xl bg-[#101412]/40 border border-brand-green/10 flex flex-col justify-between hover:border-brand-green/30 transition-all duration-300 group">
-                <div className="flex justify-between items-center text-brand-green">
-                  <Thermometer className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-[8px] font-extrabold tracking-wider uppercase bg-brand-green/5 px-1.5 py-0.5 rounded border border-brand-green/10">
+              {/* Temperature Row */}
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#101412]/40 border border-brand-green/10 hover:border-brand-green/30 transition-all duration-300 gap-3 group">
+                <div className="flex items-center gap-3 min-w-[95px] sm:min-w-[140px]">
+                  <div className="p-2 rounded-lg bg-brand-green/10 text-brand-green">
+                    <Thermometer className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-gray-200 block font-serif">Ambient Temp</span>
+                    <span className="text-[8px] text-gray-500 block font-mono">Target: 20-35°C</span>
+                  </div>
+                </div>
+
+                <div className="flex-1 max-w-[160px] h-1 bg-gray-950 rounded-full overflow-hidden border border-white/[0.02] hidden min-[380px]:block">
+                  <div 
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      state.tempC >= 20 && state.tempC <= 35 ? 'bg-brand-green' : 'bg-brand-copper'
+                    }`}
+                    style={{ width: `${Math.min((state.tempC / 50) * 100, 100)}%` }}
+                  />
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="text-base font-bold font-serif text-white">{state.tempC.toFixed(1)}°C</span>
+                  <span className={`text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                    state.tempC >= 20 && state.tempC <= 35 
+                      ? 'bg-brand-green/5 text-brand-green border-brand-green/10' 
+                      : 'bg-brand-copper/5 text-brand-copper border-brand-copper/10'
+                  }`}>
                     {state.tempC >= 20 && state.tempC <= 35 ? 'Good' : 'Stress'}
                   </span>
                 </div>
-                <div className="mt-4">
-                  <span className="text-[9px] font-bold text-gray-500 block uppercase tracking-wider">Temperature</span>
-                  <span className="text-2xl font-bold font-serif text-white mt-0.5 block">{state.tempC.toFixed(1)}°C</span>
-                </div>
-                <span className="text-[8px] text-gray-600 block mt-3 border-t border-gray-900 pt-1.5">
-                  Target: 20-35°C
-                </span>
               </div>
 
-              {/* Light Card (Gold Theme) */}
-              <div className="p-4 rounded-xl bg-[#141410]/40 border border-brand-gold/10 flex flex-col justify-between hover:border-brand-gold/30 transition-all duration-300 group">
-                <div className="flex justify-between items-center text-brand-gold">
-                  <Sun className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-[8px] font-extrabold tracking-wider uppercase bg-brand-gold/5 px-1.5 py-0.5 rounded border border-brand-gold/10">
+              {/* Sunlight Row */}
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#141410]/40 border border-brand-gold/10 hover:border-brand-gold/30 transition-all duration-300 gap-3 group">
+                <div className="flex items-center gap-3 min-w-[95px] sm:min-w-[140px]">
+                  <div className="p-2 rounded-lg bg-brand-gold/10 text-brand-gold">
+                    <Sun className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-gray-200 block font-serif">Luminous Flux</span>
+                    <span className="text-[8px] text-gray-500 block font-mono">Target: 60%-90%</span>
+                  </div>
+                </div>
+
+                <div className="flex-1 max-w-[160px] h-1 bg-gray-950 rounded-full overflow-hidden border border-white/[0.02] hidden min-[380px]:block">
+                  <div 
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      lightPct >= 60 && lightPct <= 90 ? 'bg-brand-gold' : 'bg-brand-copper'
+                    }`}
+                    style={{ width: `${lightPct}%` }}
+                  />
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="text-base font-bold font-serif text-white">{lightPct}%</span>
+                  <span className={`text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                    lightPct >= 60 && lightPct <= 90 
+                      ? 'bg-brand-green/5 text-brand-green border-brand-green/10' 
+                      : 'bg-brand-gold/5 text-brand-gold border-brand-gold/10'
+                  }`}>
                     {lightPct >= 60 && lightPct <= 90 ? 'Ideal' : 'Filtered'}
                   </span>
                 </div>
-                <div className="mt-4">
-                  <span className="text-[9px] font-bold text-gray-500 block uppercase tracking-wider">Sunlight</span>
-                  <span className="text-2xl font-bold font-serif text-white mt-0.5 block">{lightPct}%</span>
-                </div>
-                <span className="text-[8px] text-gray-600 block mt-3 border-t border-gray-900 pt-1.5">
-                  Target: 60%-90%
-                </span>
               </div>
             </div>
 

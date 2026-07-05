@@ -28,6 +28,15 @@ export default function UserPage() {
     setIsMounted(true);
   }, []);
 
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-obsidian text-brand-green/80 flex items-center justify-center font-serif italic text-sm gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-ping"></span>
+        Connecting conservatory terminal...
+      </div>
+    );
+  }
+
   const handleLike = () => {
     if (hasLiked) {
       setLikesCount(prev => prev - 1);
@@ -38,13 +47,7 @@ export default function UserPage() {
     }
   };
 
-  // Other IoT monitored plants in the R.D.N.K. Conservatory
-  const otherSmartPlants = [
-    { id: 'fern', name: 'Boston Fern #04', status: 'Optimal', score: 84, price: '₹450 / $18.99', icon: '🌿' },
-    { id: 'cactus', name: 'Desert Cactus #02', status: 'Optimal', score: 87, price: '₹300 / $12.99', icon: '🌵' },
-    { id: 'money_plant', name: 'Money Plant #07', status: 'Optimal', score: 82, price: '₹280 / $11.99', icon: '🍃' },
-    { id: 'tomato', name: 'Cherry Tomato #12', status: 'Water Deficit', score: 62, price: '₹380 / $15.99', icon: '🍅' },
-  ];
+
 
   return (
     <div className="min-h-screen bg-obsidian text-gray-100 font-sans flex flex-col justify-between p-4 sm:p-6 pb-28 md:pb-12 selection:bg-brand-green/20 selection:text-brand-green">
@@ -59,9 +62,9 @@ export default function UserPage() {
               🏡
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-extrabold text-white font-serif tracking-tight">R.D.N.K. Botanicals</h1>
-                <span className="inline-flex items-center gap-0.5 px-2.5 py-0.5 rounded-full text-[8px] font-bold uppercase bg-brand-gold/10 text-brand-gold border border-brand-gold/25 font-mono">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white font-serif tracking-tight">R.D.N.K. Botanicals</h1>
+                <span className="w-fit inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase bg-brand-gold/10 text-brand-gold border border-brand-gold/25 font-mono">
                   <Star className="w-2.5 h-2.5 fill-brand-gold stroke-none" />
                   Premium Curator
                 </span>
@@ -108,16 +111,16 @@ export default function UserPage() {
               </p>
 
               {/* Bio details badges */}
-              <div className="grid grid-cols-3 gap-2 text-[9px] text-gray-400 font-bold uppercase tracking-wider border-t border-gray-900 pt-4 mt-1 font-mono">
-                <div className="flex items-center gap-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider border-t border-gray-900 pt-4 mt-1 font-mono">
+                <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-brand-green" />
                   Organic Soil
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-brand-green" />
                   IoT Certified
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-brand-green" />
                   Pathogen-Free
                 </div>
@@ -140,7 +143,7 @@ export default function UserPage() {
                     Acquisition Valuation
                   </span>
                   <span className="text-base font-black text-brand-green block mt-1">
-                    ₹350 / $14.99
+                    ₹350
                   </span>
                 </div>
               </div>
@@ -149,10 +152,10 @@ export default function UserPage() {
                 Purchase conveys the certified organic Tulsi tissue culture, integrated terracotta smart-pot configured with GPIO34 capacitive sensors, air temperature semiconductors, and a pre-flashed ESP32 network bridge.
               </p>
 
-              <div className="flex items-center gap-3 mt-1">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-1">
                 <button 
                   onClick={handleLike}
-                  className={`px-3 py-2.5 rounded-xl border flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-200 active:scale-95 ${
+                  className={`w-full sm:w-auto px-4 py-2.5 rounded-xl border flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-200 active:scale-95 ${
                     hasLiked 
                       ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' 
                       : 'bg-gray-950 border-gray-900 text-gray-400 hover:text-gray-200'
@@ -167,7 +170,7 @@ export default function UserPage() {
                   className="flex-grow inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-[10px] font-bold bg-brand-green hover:bg-brand-green/90 text-black tracking-widest uppercase transition-all duration-300 shadow-lg shadow-brand-green/5 active:scale-95"
                 >
                   <ShoppingBag className="w-4 h-4 stroke-[2.2]" />
-                  Aquire Specimen & Handover Logs
+                  Acquire Specimen
                 </button>
               </div>
             </div>
@@ -225,48 +228,7 @@ export default function UserPage() {
 
         </div>
 
-        {/* Other IoT Monitored Plants Catalog */}
-        <section className="bg-[#121317]/30 border border-gray-900 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col gap-4">
-          <div className="flex justify-between items-center border-b border-gray-900 pb-3">
-            <h3 className="text-xs font-bold text-white font-serif flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-brand-copper" />
-              Conservatory Catalog &mdash; Monitored Flora
-            </h3>
-            <span className="text-[9px] font-bold text-gray-450 bg-gray-950 border border-gray-900 px-2 py-0.5 rounded font-mono uppercase">
-              Live Index
-            </span>
-          </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-            {otherSmartPlants.map((plant) => (
-              <div 
-                key={plant.id} 
-                className="bg-[#0b0c0f]/40 border border-gray-950 p-3 rounded-xl flex flex-col justify-between hover:border-gray-900 transition-colors duration-250 group cursor-pointer"
-                onClick={() => alert(`Connecting to R.D.N.K. telemetry bridge for ${plant.name}...`)}
-              >
-                <div>
-                  <div className="flex justify-between items-start">
-                    <span className="text-xl select-none group-hover:scale-115 transition-transform duration-300">{plant.icon}</span>
-                    <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded font-mono ${
-                      plant.status === 'Optimal' 
-                        ? 'bg-brand-green/5 text-brand-green border border-brand-green/10' 
-                        : 'bg-brand-copper/5 text-brand-copper border border-brand-copper/10'
-                    }`}>
-                      {plant.status}
-                    </span>
-                  </div>
-                  <h4 className="text-xs font-bold font-serif text-gray-200 mt-2.5 truncate">{plant.name}</h4>
-                  <span className="text-[9px] text-brand-gold font-semibold block mt-0.5 font-mono">{plant.price}</span>
-                </div>
-
-                <div className="mt-4 pt-2 border-t border-gray-950 flex justify-between items-center text-[9px] text-gray-500 font-mono">
-                  <span>Vigor: <strong className="text-gray-300 font-bold">{plant.score}</strong></span>
-                  <ChevronRight className="w-3 h-3 text-gray-700 group-hover:translate-x-0.5 transition-transform duration-200" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
       </div>
     </div>

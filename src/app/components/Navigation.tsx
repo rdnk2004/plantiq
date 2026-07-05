@@ -15,12 +15,15 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Desktop Top Navigation */}
-      <nav className="hidden md:flex justify-between items-center px-8 py-4 bg-[#161922] border-b border-gray-800/60 sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <span className="text-[#1D9E75] font-black text-xl tracking-wider select-none">PlantIQ</span>
-        </div>
-        <div className="flex items-center gap-8">
+      {/* Desktop Centered Floating Navigation */}
+      <div className="hidden md:block fixed top-6 left-0 right-0 z-50 pointer-events-none">
+        <nav className="mx-auto w-fit bg-[#121317]/50 border border-white/[0.05] backdrop-blur-md px-2 py-1.5 flex items-center gap-1 rounded-full shadow-2xl pointer-events-auto">
+          {/* PlantIQ Brand Stamp */}
+          <div className="pl-4 pr-3 py-1 border-r border-white/[0.05] mr-1 flex items-center gap-1.5 select-none">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span>
+            <span className="font-sans font-black text-xs tracking-wider text-white">Plant<span className="text-brand-green">IQ</span></span>
+          </div>
+          
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
@@ -28,37 +31,43 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-2 text-sm font-bold transition-all duration-200 ${
-                  isActive ? 'text-[#1D9E75]' : 'text-gray-400 hover:text-gray-200'
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${
+                  isActive 
+                    ? 'bg-brand-green/10 text-brand-green border border-brand-green/20 shadow-sm shadow-brand-green/5' 
+                    : 'text-gray-400 hover:text-gray-200 border border-transparent hover:bg-white/[0.02]'
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3.5 h-3.5" />
                 <span>{item.name}</span>
               </Link>
             );
           })}
-        </div>
-      </nav>
+        </nav>
+      </div>
 
-      {/* Mobile Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#161922] border-t border-gray-800/80 px-6 py-3 flex justify-around items-center z-50 shadow-lg">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex flex-col items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase transition-colors duration-200 ${
-                isActive ? 'text-[#1D9E75]' : 'text-gray-500 hover:text-gray-300'
-              }`}
-            >
-              <Icon className="w-5 h-5" />
-              <span>{item.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      {/* Mobile Floating Bottom Bar */}
+      <div className="md:hidden fixed bottom-6 left-4 right-4 z-50 pointer-events-none">
+        <nav className="bg-[#121317]/60 border border-white/[0.05] backdrop-blur-xl px-4 py-2.5 flex justify-around items-center rounded-2xl shadow-2xl pointer-events-auto">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all duration-300 ${
+                  isActive 
+                    ? 'bg-brand-green/10 text-brand-green border border-brand-green/25 font-bold shadow-sm shadow-brand-green/5' 
+                    : 'text-gray-500 hover:text-gray-300 border border-transparent'
+                }`}
+              >
+                <Icon className="w-4.5 h-4.5" />
+                <span className="text-[9px] font-bold tracking-wider uppercase mt-0.5">{item.name.replace("'", "")}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
     </>
   );
 }

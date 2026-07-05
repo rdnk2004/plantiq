@@ -74,6 +74,15 @@ export default function HistoryPage() {
     setIsMounted(true);
   }, []);
 
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-obsidian text-brand-green/80 flex items-center justify-center font-serif italic text-sm gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-ping"></span>
+        Accessing vigor registry...
+      </div>
+    );
+  }
+
   const formatTime = (isoString: string) => {
     try {
       const date = new Date(isoString);
@@ -287,11 +296,11 @@ export default function HistoryPage() {
                       {getAlertIcon(alert.type)}
                     </div>
                     <div className="flex-grow">
-                      <div className="flex items-center justify-between gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 pb-1 border-b border-gray-950/20 mb-1.5">
                         <span className="text-[11px] font-bold text-gray-300 font-serif">Telemetry Trace</span>
-                        <div className="flex items-center gap-2 font-mono">
+                        <div className="flex flex-wrap items-center gap-1.5 font-mono">
                           {getAlertBadge(alert.type)}
-                          <span className="text-[9px] text-gray-500">{formatTime(alert.timestamp)}</span>
+                          <span className="text-[8px] text-gray-500">{formatTime(alert.timestamp)}</span>
                         </div>
                       </div>
                       <p className="text-[10px] text-gray-400 mt-1 leading-relaxed">{alert.message}</p>
@@ -310,13 +319,13 @@ export default function HistoryPage() {
                     <Clock className="w-3.5 h-3.5" />
                   </div>
                   <div className="flex-grow">
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 pb-1 border-b border-gray-950/20 mb-1.5">
                       <span className="text-[11px] font-bold text-gray-300 font-serif">{log.tag}</span>
-                      <div className="flex items-center gap-2">
-                        <span className={`px-2 py-0.5 rounded text-[8px] font-semibold border ${log.badge}`}>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className={`px-1.5 py-0.5 rounded text-[8px] font-semibold border ${log.badge} whitespace-nowrap`}>
                           Sign: {log.caretaker}
                         </span>
-                        <span className="text-[9px] text-gray-500 font-mono">{log.date}, {log.time}</span>
+                        <span className="text-[8px] text-gray-500 font-mono">{log.date}, {log.time}</span>
                       </div>
                     </div>
                     <p className="text-[10px] text-gray-400 mt-1 leading-relaxed">{log.message}</p>
