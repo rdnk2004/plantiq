@@ -188,6 +188,18 @@ export default function DashboardPage() {
     }
   };
 
+  const getHealthColor = () => {
+    if (healthScore < 45) return '#EF4444';
+    if (healthScore < 75) return '#C87A53';
+    return '#3CE7A8';
+  };
+
+  const getGradientUrl = () => {
+    if (healthScore < 45) return 'url(#grad-danger)';
+    if (healthScore < 75) return 'url(#grad-warning)';
+    return 'url(#grad-optimal)';
+  };
+
   return (
     <div className="min-h-screen bg-obsidian text-gray-100 font-sans flex flex-col justify-between p-4 sm:p-6 pb-28 md:pb-12 selection:bg-brand-green/20 selection:text-brand-green">
       <div className="max-w-3xl mx-auto w-full flex-grow flex flex-col gap-6 py-2">
@@ -195,25 +207,25 @@ export default function DashboardPage() {
         {/* Editorial Specimen Identification Header */}
         <header className="border-b border-gray-900 pb-6 relative overflow-hidden flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
           <div className="text-left">
-            <span className="font-serif italic text-brand-gold tracking-wider text-xs block mb-1">
+            <span className="font-serif italic text-brand-gold tracking-wider text-sm block mb-1">
               R.D.N.K. Private Collection
             </span>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white font-serif tracking-tight flex items-center gap-2">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-white font-serif tracking-tight flex items-center gap-2">
               Specimen: Tulsi
             </h1>
-            <p className="text-[10px] text-gray-500 tracking-widest uppercase mt-1 font-sans font-semibold">
+            <p className="text-xs text-gray-500 tracking-widest uppercase mt-1 font-sans font-semibold">
               {profile.scientificName} &bull; Pot ID #001
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-[#14151a] border border-gray-800 text-gray-400">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#14151a] border border-gray-800 text-gray-400">
               <MapPin className="w-3 h-3 text-brand-copper" />
               East Greenhouse, Shelf A4
             </span>
             <Link 
               href="/user" 
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-[#111613] hover:bg-[#15221b] text-brand-green border border-brand-green/20 transition-all duration-300 active:scale-95 shadow-sm shadow-brand-green/5"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#111613] hover:bg-[#15221b] text-brand-green border border-brand-green/20 transition-all duration-300 active:scale-95 shadow-sm shadow-brand-green/5"
             >
               <User className="w-3 h-3" />
               Curator: R.D.N.K.
@@ -229,17 +241,17 @@ export default function DashboardPage() {
               <Shield className="w-4.5 h-4.5" />
             </div>
             <div>
-              <p className="text-xs font-bold text-gray-200 font-serif">Verified Organic Telemetry Baseline</p>
-              <p className="text-[10px] text-gray-500 mt-0.5">
+              <p className="text-sm font-bold text-gray-200 font-serif">Verified Organic Telemetry Baseline</p>
+              <p className="text-xs text-gray-500 mt-0.5">
                 Capacitive soil monitoring active. Valuation: <span className="text-brand-green font-bold">₹350</span> (Smart Terracotta included).
               </p>
             </div>
           </div>
           <Link
             href="/user"
-            className="w-full sm:w-auto text-center text-[10px] font-bold text-black bg-brand-green hover:bg-brand-green/90 px-4 py-2.5 rounded-xl tracking-widest uppercase transition-all duration-300 shadow-md shadow-brand-green/10 active:scale-95 whitespace-nowrap"
+            className="w-full sm:w-auto text-center text-xs font-bold text-black bg-brand-green hover:bg-brand-green/90 px-4 py-2.5 rounded-xl tracking-widest uppercase transition-all duration-300 shadow-md shadow-brand-green/10 active:scale-95 whitespace-nowrap"
           >
-            Aquire Specimen
+            Acquire Specimen
           </Link>
         </div>
 
@@ -248,8 +260,8 @@ export default function DashboardPage() {
           <div className="p-4 rounded-xl bg-rose-500/5 border border-rose-500/10 text-rose-400/90 flex items-start gap-3 shadow-md animate-pulse">
             <WifiOff className="w-4 h-4 shrink-0 mt-0.5" />
             <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-wider">Wi-Fi Telemetry Severed &mdash; Offline Cache Active</p>
-              <p className="text-[10px] text-gray-500 mt-1 leading-normal">
+              <p className="text-xs font-extrabold uppercase tracking-wider">Wi-Fi Telemetry Severed &mdash; Offline Cache Active</p>
+              <p className="text-xs text-gray-500 mt-1 leading-normal">
                 ESP32 is storing telemetry logs in local EEPROM flash memory. Automatic ingestion will resume once signal bridges.
               </p>
             </div>
@@ -261,31 +273,80 @@ export default function DashboardPage() {
           
           {/* Glowing Halo Health score */}
           <div className="md:col-span-5 bg-[#121317]/30 border border-gray-900 rounded-2xl p-6 flex flex-col justify-center items-center text-center shadow-md relative group">
-            <span className="absolute top-4 left-4 text-[9px] font-bold text-gray-500 uppercase tracking-widest">
+            <span className="absolute top-4 left-4 text-xs font-bold text-gray-500 uppercase tracking-widest">
               Biometric Vigor
             </span>
             
-            <div className={`relative flex items-center justify-center w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-[#07080A]/60 border shadow-2xl transition-all duration-700 ${glowColor} mt-4`}>
-              <div className="absolute inset-0 rounded-full bg-brand-green/[0.02] blur-xl" />
+            <div className={`relative flex items-center justify-center w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-[#07080A]/80 border shadow-2xl transition-all duration-700 ${glowColor} mt-4 group-hover:scale-[1.03] duration-500 overflow-hidden`}>
+              {/* Soft, rich inner radial glow backdrop */}
+              <div 
+                className="absolute inset-0 rounded-full blur-2xl opacity-10 transition-all duration-700" 
+                style={{ backgroundColor: getHealthColor() }}
+              />
               
               <svg className="w-full h-full transform -rotate-90 scale-95" viewBox="0 0 200 200">
                 <defs>
+                  {/* Glowing halo filter using active health color */}
                   <filter id="glow-halo" x="-30%" y="-30%" width="160%" height="160%">
-                    <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={getChartLineColor()} floodOpacity="0.4" />
+                    <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor={getHealthColor()} floodOpacity="0.6" />
                   </filter>
+                  
+                  {/* Premium gradients for the active progress track */}
+                  <linearGradient id="grad-optimal" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#10b981" />
+                    <stop offset="60%" stopColor="#3CE7A8" />
+                    <stop offset="100%" stopColor="#6ee7b7" />
+                  </linearGradient>
+                  
+                  <linearGradient id="grad-warning" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#d97706" />
+                    <stop offset="60%" stopColor="#C87A53" />
+                    <stop offset="100%" stopColor="#fde68a" />
+                  </linearGradient>
+                  
+                  <linearGradient id="grad-danger" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#e11d48" />
+                    <stop offset="60%" stopColor="#EF4444" />
+                    <stop offset="100%" stopColor="#fca5a5" />
+                  </linearGradient>
                 </defs>
+
+                {/* Outer techy dial scale dots */}
+                <circle
+                  cx="100"
+                  cy="100"
+                  r={radius + 8}
+                  className="stroke-gray-800/40 fill-none"
+                  strokeWidth="1.5"
+                  strokeDasharray="2 5"
+                />
+
+                {/* Main background track (sleek, subtle dark track) */}
                 <circle
                   cx="100"
                   cy="100"
                   r={radius}
-                  className="stroke-[#181a22] fill-none"
+                  className="stroke-white/[0.03] fill-none"
                   strokeWidth={strokeWidth}
                 />
+
+                {/* Inner techy dial scale tick ring */}
+                <circle
+                  cx="100"
+                  cy="100"
+                  r={radius - 8}
+                  className="stroke-gray-900/60 fill-none"
+                  strokeWidth="1"
+                  strokeDasharray="1 3"
+                />
+
+                {/* Active progress arc with premium gradient and intense shadow glow */}
                 <circle
                   cx="100"
                   cy="100"
                   r={radius}
-                  className={`transition-all duration-700 ease-out fill-none ${progressStrokeColor}`}
+                  className="transition-all duration-700 ease-out fill-none"
+                  stroke={getGradientUrl()}
                   strokeWidth={strokeWidth}
                   strokeDasharray={circumference}
                   strokeDashoffset={strokeDashoffset}
@@ -294,17 +355,19 @@ export default function DashboardPage() {
                 />
               </svg>
               
-              <div className="absolute flex flex-col items-center justify-center">
-                <span className="text-5xl font-black text-white font-serif tracking-tighter leading-none">{healthScore}</span>
-                <span className="text-[8px] font-bold text-gray-500 tracking-widest uppercase mt-2">Vigor index</span>
+              {/* Central text wrapper with glassmorphic backing details */}
+              <div className="absolute flex flex-col items-center justify-center select-none">
+                <span className="text-6xl sm:text-7xl font-black text-white font-serif tracking-tighter leading-none filter drop-shadow-[0_2px_10px_rgba(255,255,255,0.15)]">
+                  {healthScore}
+                </span>
               </div>
             </div>
 
             <div className="mt-6 w-full">
-              <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] font-bold border font-serif italic ${statusColor}`}>
+              <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold border font-serif italic ${statusColor}`}>
                 {healthStatusText}
               </span>
-              <p className="text-[10px] text-gray-500 mt-2.5">
+              <p className="text-xs text-gray-500 mt-2.5">
                 Rating: <span className="text-gray-300 font-semibold">{healthBadgeText}</span>
               </p>
             </div>
@@ -318,12 +381,12 @@ export default function DashboardPage() {
               {/* Moisture Row */}
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#141210]/40 border border-brand-copper/10 hover:border-brand-copper/30 transition-all duration-300 gap-3 group">
                 <div className="flex items-center gap-3 min-w-[95px] sm:min-w-[140px]">
-                  <div className="p-2 rounded-lg bg-brand-copper/10 text-brand-copper">
+                   <div className="p-2 rounded-lg bg-brand-copper/10 text-brand-copper">
                     <Droplet className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-gray-200 block font-serif">Soil Hydration</span>
-                    <span className="text-[8px] text-gray-500 block font-mono">Target: 50%-70%</span>
+                    <span className="text-xs font-bold text-gray-200 block font-serif">Soil Hydration</span>
+                    <span className="text-[11px] text-gray-500 block font-mono">Target: 50%-70%</span>
                   </div>
                 </div>
 
@@ -337,8 +400,8 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-base font-bold font-serif text-white">{moisturePct}%</span>
-                  <span className={`text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                  <span className="text-lg font-bold font-serif text-white">{moisturePct}%</span>
+                  <span className={`text-[11px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
                     moisturePct >= 50 && moisturePct <= 70 
                       ? 'bg-brand-green/5 text-brand-green border-brand-green/10' 
                       : 'bg-brand-copper/5 text-brand-copper border-brand-copper/10'
@@ -355,8 +418,8 @@ export default function DashboardPage() {
                     <Thermometer className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-gray-200 block font-serif">Ambient Temp</span>
-                    <span className="text-[8px] text-gray-500 block font-mono">Target: 20-35°C</span>
+                    <span className="text-xs font-bold text-gray-200 block font-serif">Ambient Temp</span>
+                    <span className="text-[11px] text-gray-500 block font-mono">Target: 20-35°C</span>
                   </div>
                 </div>
 
@@ -370,8 +433,8 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-base font-bold font-serif text-white">{state.tempC.toFixed(1)}°C</span>
-                  <span className={`text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                  <span className="text-lg font-bold font-serif text-white">{state.tempC.toFixed(1)}°C</span>
+                  <span className={`text-[11px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
                     state.tempC >= 20 && state.tempC <= 35 
                       ? 'bg-brand-green/5 text-brand-green border-brand-green/10' 
                       : 'bg-brand-copper/5 text-brand-copper border-brand-copper/10'
@@ -388,8 +451,8 @@ export default function DashboardPage() {
                     <Sun className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-gray-200 block font-serif">Luminous Flux</span>
-                    <span className="text-[8px] text-gray-500 block font-mono">Target: 60%-90%</span>
+                    <span className="text-xs font-bold text-gray-200 block font-serif">Luminous Flux</span>
+                    <span className="text-[11px] text-gray-500 block font-mono">Target: 60%-90%</span>
                   </div>
                 </div>
 
@@ -403,8 +466,8 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-base font-bold font-serif text-white">{lightPct}%</span>
-                  <span className={`text-[8px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                  <span className="text-lg font-bold font-serif text-white">{lightPct}%</span>
+                  <span className={`text-[11px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded border ${
                     lightPct >= 60 && lightPct <= 90 
                       ? 'bg-brand-green/5 text-brand-green border-brand-green/10' 
                       : 'bg-brand-gold/5 text-brand-gold border-brand-gold/10'
@@ -418,10 +481,10 @@ export default function DashboardPage() {
             {/* AI Diagnosis and Action Panel */}
             <div className="p-4 sm:p-5 rounded-2xl bg-[#121317]/40 border border-gray-900 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-md">
               <div className="flex-1">
-                <span className="text-[8px] font-bold text-brand-gold uppercase tracking-widest block mb-1">
+                <span className="text-[11px] font-bold text-brand-gold uppercase tracking-widest block mb-1">
                   Predictive Inundation Calculator
                 </span>
-                <p className="text-xs font-semibold text-gray-200 mt-1 font-serif">
+                <p className="text-sm font-semibold text-gray-200 mt-1 font-serif">
                   {predictedHours === 0 ? (
                     <span className="text-rose-400 flex items-center gap-1.5">
                       <AlertTriangle className="w-3.5 h-3.5" />
@@ -431,14 +494,14 @@ export default function DashboardPage() {
                     `Moisture depletion rate projects irrigation in ~${predictedHours} hours`
                   )}
                 </p>
-                <p className="text-[9px] text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 mt-1">
                   Calculated based on active leaf transpiration curves.
                 </p>
               </div>
 
               <button
                 onClick={waterPlant}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-xl text-[10px] font-extrabold bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/10 active:scale-95 transition-all duration-200 uppercase tracking-widest"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-xl text-xs font-extrabold bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/10 active:scale-95 transition-all duration-200 uppercase tracking-widest"
               >
                 <Droplet className="w-3.5 h-3.5 fill-white" />
                 Water Specimen
@@ -446,14 +509,14 @@ export default function DashboardPage() {
             </div>
 
             {/* Care guidelines summary */}
-            <div className="p-4 rounded-xl bg-gray-900/10 border border-gray-900 grid grid-cols-2 gap-4 text-xs font-serif italic">
+            <div className="p-4 rounded-xl bg-gray-900/10 border border-gray-900 grid grid-cols-2 gap-4 text-sm font-serif italic">
               <div>
-                <span className="text-gray-500 text-[10px] font-sans uppercase font-bold tracking-wider block">Hydration Target</span>
-                <span className="text-gray-300 font-bold mt-1 block">{profile.wateringInterval}</span>
+                <span className="text-gray-500 text-xs font-sans uppercase font-bold tracking-wider block">Hydration Target</span>
+                <span className="text-gray-300 text-sm font-bold mt-1 block">{profile.wateringInterval}</span>
               </div>
               <div>
-                <span className="text-gray-500 text-[10px] font-sans uppercase font-bold tracking-wider block">Optimal Placement</span>
-                <span className="text-gray-300 font-bold mt-1 block">{profile.placement}</span>
+                <span className="text-gray-500 text-xs font-sans uppercase font-bold tracking-wider block">Optimal Placement</span>
+                <span className="text-gray-300 text-sm font-bold mt-1 block">{profile.placement}</span>
               </div>
             </div>
 
@@ -463,7 +526,7 @@ export default function DashboardPage() {
         {/* Glowing Area Chart for 24-Hour logs */}
         <div className="bg-[#121317]/30 border border-gray-900 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col gap-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-900 pb-4">
-            <h3 className="text-sm font-bold text-white font-serif flex items-center gap-2">
+            <h3 className="text-base font-bold text-white font-serif flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-brand-gold animate-pulse" />
               {getChartLabel()} &mdash; 24h Baseline Log
             </h3>
@@ -474,7 +537,7 @@ export default function DashboardPage() {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-3 py-1 rounded-lg text-[9px] font-bold tracking-widest uppercase transition-all duration-300 ${
+                  className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
                     activeTab === tab 
                       ? 'bg-brand-green text-black font-extrabold shadow-md' 
                       : 'text-gray-400 hover:text-gray-200'
@@ -500,13 +563,13 @@ export default function DashboardPage() {
                   <XAxis 
                     dataKey="time" 
                     stroke="#475569" 
-                    fontSize={10}
+                    fontSize={12}
                     tickLine={false}
                     axisLine={false}
                   />
                   <YAxis 
                     stroke="#475569" 
-                    fontSize={10}
+                    fontSize={12}
                     domain={activeTab === 'temp' ? [15, 45] : [0, 100]}
                     tickLine={false}
                     axisLine={false}
@@ -517,11 +580,11 @@ export default function DashboardPage() {
                       borderColor: '#1d2026',
                       borderRadius: '12px',
                       color: '#f3f4f6',
-                      fontSize: '11px',
+                      fontSize: '13px',
                       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.4)'
                     }}
                     itemStyle={{ color: getChartLineColor() }}
-                    labelStyle={{ color: '#94a3b8', fontSize: 10, fontWeight: 'bold' }}
+                    labelStyle={{ color: '#94a3b8', fontSize: 12, fontWeight: 'bold' }}
                   />
                   <Area 
                     type="monotone" 
@@ -547,7 +610,7 @@ export default function DashboardPage() {
         <div className="flex flex-col gap-2">
           <button
             onClick={() => setIsSimOpen((prev) => !prev)}
-            className="w-full py-2.5 rounded-xl text-[10px] font-bold bg-[#14151a] hover:bg-[#191b22] text-gray-500 hover:text-gray-400 border border-gray-900 flex justify-center items-center gap-1.5 transition-colors uppercase tracking-widest"
+            className="w-full py-2.5 rounded-xl text-xs font-bold bg-[#14151a] hover:bg-[#191b22] text-gray-500 hover:text-gray-400 border border-gray-900 flex justify-center items-center gap-1.5 transition-colors uppercase tracking-widest"
           >
             <Cpu className="w-3.5 h-3.5" />
             {isSimOpen ? 'Close R.D.N.K. Diagnostic Console' : 'Open R.D.N.K. Diagnostic Console'}
@@ -558,14 +621,14 @@ export default function DashboardPage() {
         {isMounted && (
           <div className={`p-5 rounded-2xl bg-[#121317] border border-gray-900 shadow-2xl flex-col gap-5 ${isSimOpen ? 'flex animate-in fade-in slide-in-from-bottom duration-300' : 'hidden'}`}>
             <div className="flex justify-between items-center pb-3 border-b border-gray-900">
-              <span className="text-xs font-bold text-brand-green uppercase tracking-widest flex items-center gap-2">
+              <span className="text-sm font-bold text-brand-green uppercase tracking-widest flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span>
                 🔌 R.D.N.K. Smart-Pot Core Terminal v2.4
               </span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => updateSensors({ isOffline: !state.isOffline })}
-                  className={`px-3 py-1 rounded-lg text-[10px] font-bold tracking-wider uppercase transition-all ${
+                  className={`px-3 py-1 rounded-lg text-xs font-bold tracking-wider uppercase transition-all ${
                     state.isOffline 
                       ? 'bg-rose-500 text-white shadow' 
                       : 'bg-[#181a22] text-gray-400 border border-gray-800 hover:text-white'
@@ -586,7 +649,7 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {/* Moisture Slider */}
               <div className="flex flex-col gap-2">
-                <div className="flex justify-between text-xs">
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Moisture ADC (GPIO34)</span>
                   <span className="font-bold text-blue-400 font-mono">{state.moistureRaw}</span>
                 </div>
@@ -598,7 +661,7 @@ export default function DashboardPage() {
                   onChange={(e) => updateSensors({ moistureRaw: parseInt(e.target.value) })}
                   className="w-full accent-blue-500 h-1 bg-gray-850 rounded-lg appearance-none cursor-pointer"
                 />
-                <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                <div className="flex justify-between text-xs text-gray-500 font-mono">
                   <span>Wet (500)</span>
                   <span>Dry (4095)</span>
                 </div>
@@ -606,7 +669,7 @@ export default function DashboardPage() {
 
               {/* Temp Slider */}
               <div className="flex flex-col gap-2">
-                <div className="flex justify-between text-xs">
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Temperature (GPIO4)</span>
                   <span className="font-bold text-red-400 font-mono">{state.tempC.toFixed(1)}°C</span>
                 </div>
@@ -619,7 +682,7 @@ export default function DashboardPage() {
                   onChange={(e) => updateSensors({ tempC: parseFloat(e.target.value) })}
                   className="w-full accent-red-500 h-1 bg-gray-850 rounded-lg appearance-none cursor-pointer"
                 />
-                <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                <div className="flex justify-between text-xs text-gray-500 font-mono">
                   <span>10°C</span>
                   <span>45°C</span>
                 </div>
@@ -627,7 +690,7 @@ export default function DashboardPage() {
 
               {/* Light Slider */}
               <div className="flex flex-col gap-2">
-                <div className="flex justify-between text-xs">
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Light LDR (GPIO35)</span>
                   <span className="font-bold text-brand-gold font-mono">{state.lightRaw}</span>
                 </div>
@@ -639,14 +702,14 @@ export default function DashboardPage() {
                   onChange={(e) => updateSensors({ lightRaw: parseInt(e.target.value) })}
                   className="w-full accent-brand-gold h-1 bg-gray-850 rounded-lg appearance-none cursor-pointer"
                 />
-                <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                <div className="flex justify-between text-xs text-gray-500 font-mono">
                   <span>Dark (0)</span>
                   <span>Bright (1023)</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-2 text-[10px] font-bold uppercase tracking-wider">
+            <div className="flex flex-wrap gap-2 pt-2 text-xs font-bold uppercase tracking-wider">
               <span className="text-gray-500 self-center mr-1">Telemetry Presets:</span>
               <button onClick={() => triggerPreset('perfect')} className="px-2.5 py-1.5 rounded bg-[#181a22] text-gray-300 border border-gray-800 hover:text-white transition-all active:scale-95">Perfect Baseline</button>
               <button onClick={() => triggerPreset('dry')} className="px-2.5 py-1.5 rounded bg-[#181a22] text-gray-300 border border-gray-800 hover:text-white transition-all active:scale-95">Dehydration</button>

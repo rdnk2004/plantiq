@@ -63,13 +63,13 @@ export default function UserPage() {
             </div>
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
-                <h1 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white font-serif tracking-tight">R.D.N.K. Botanicals</h1>
-                <span className="w-fit inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase bg-brand-gold/10 text-brand-gold border border-brand-gold/25 font-mono">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white font-serif tracking-tight">R.D.N.K. Botanicals</h1>
+                <span className="w-fit inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-bold uppercase bg-brand-gold/10 text-brand-gold border border-brand-gold/25 font-mono">
                   <Star className="w-2.5 h-2.5 fill-brand-gold stroke-none" />
                   Premium Curator
                 </span>
               </div>
-              <p className="text-xs text-gray-400 mt-1 font-medium flex items-center gap-1 font-serif italic">
+              <p className="text-sm text-gray-400 mt-1 font-medium flex items-center gap-1 font-serif italic">
                 <MapPin className="w-3.5 h-3.5 text-brand-copper" />
                 Sector 7, Greenhouse Block C, New Delhi
               </p>
@@ -77,7 +77,7 @@ export default function UserPage() {
           </div>
 
           <div className="flex items-center gap-2.5 self-start sm:self-center">
-            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest bg-gray-950 border border-gray-900 px-3.5 py-2 rounded-xl font-mono">
+            <span className="text-xs text-gray-400 font-bold uppercase tracking-widest bg-gray-950 border border-gray-900 px-3.5 py-2 rounded-xl font-mono">
               Cons. Code: RDNK-902
             </span>
           </div>
@@ -90,28 +90,28 @@ export default function UserPage() {
           <div className="md:col-span-7 flex flex-col gap-5">
             {/* Curator profile card */}
             <div className="bg-[#121317]/40 border border-gray-900 rounded-2xl p-5 shadow-lg flex flex-col gap-4">
-              <h3 className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest">
                 Owner & Operator Profile
               </h3>
               
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-brand-gold/5 border border-brand-gold/20 flex items-center justify-center text-brand-gold font-bold select-none font-serif italic text-base">
+                <div className="w-11 h-11 rounded-full bg-brand-gold/5 border border-brand-gold/20 flex items-center justify-center text-brand-gold font-bold select-none font-serif italic text-lg">
                   R
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold font-serif text-white">R.D.N.K.</h4>
-                  <p className="text-[9px] text-gray-450 uppercase tracking-wider font-mono">
+                  <h4 className="text-base font-bold font-serif text-white">R.D.N.K.</h4>
+                  <p className="text-xs text-gray-450 uppercase tracking-wider font-mono">
                     Chief Conservator & Systems Architect
                   </p>
                 </div>
               </div>
 
-              <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              <p className="text-sm text-gray-400 leading-relaxed font-normal">
                 "Our private collection utilizes embedded micro-sensors to chart live plant cellular stress. By maintaining rigorous baselines, R.D.N.K. Botanicals guarantees robust leaf structures and calibrated root systems."
               </p>
 
               {/* Bio details badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider border-t border-gray-900 pt-4 mt-1 font-mono">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-gray-400 font-bold uppercase tracking-wider border-t border-gray-900 pt-4 mt-1 font-mono">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-brand-green" />
                   Organic Soil
@@ -131,31 +131,31 @@ export default function UserPage() {
             <div className="bg-[#121317]/40 border border-gray-900 rounded-2xl p-5 shadow-lg flex flex-col gap-4">
               <div className="flex justify-between items-center pb-3 border-b border-gray-900">
                 <div>
-                  <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest block font-mono">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block font-mono">
                     Specimen reference
                   </span>
-                  <span className="text-sm font-bold font-serif text-white block mt-1">
+                  <span className="text-base font-bold font-serif text-white block mt-1">
                     Tulsi (Holy Basil) &mdash; Specimen #001
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest block font-mono">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block font-mono">
                     Acquisition Valuation
                   </span>
-                  <span className="text-base font-black text-brand-green block mt-1">
+                  <span className="text-lg font-black text-brand-green block mt-1">
                     ₹350
                   </span>
                 </div>
               </div>
 
-              <p className="text-xs text-gray-400 leading-relaxed">
+              <p className="text-sm text-gray-400 leading-relaxed">
                 Purchase conveys the certified organic Tulsi tissue culture, integrated terracotta smart-pot configured with GPIO34 capacitive sensors, air temperature semiconductors, and a pre-flashed ESP32 network bridge.
               </p>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-1">
                 <button 
                   onClick={handleLike}
-                  className={`w-full sm:w-auto px-4 py-2.5 rounded-xl border flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-200 active:scale-95 ${
+                  className={`w-full sm:w-auto px-4 py-2.5 rounded-xl border flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-widest transition-all duration-200 active:scale-95 ${
                     hasLiked 
                       ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' 
                       : 'bg-gray-950 border-gray-900 text-gray-400 hover:text-gray-200'
@@ -167,7 +167,7 @@ export default function UserPage() {
                 
                 <button
                   onClick={() => alert("Simulation Transfer: Ownership transfer protocol initiated. Initializing ESP32 local broker handshake...")}
-                  className="flex-grow inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-[10px] font-bold bg-brand-green hover:bg-brand-green/90 text-black tracking-widest uppercase transition-all duration-300 shadow-lg shadow-brand-green/5 active:scale-95"
+                  className="flex-grow inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-brand-green hover:bg-brand-green/90 text-black tracking-widest uppercase transition-all duration-300 shadow-lg shadow-brand-green/5 active:scale-95"
                 >
                   <ShoppingBag className="w-4 h-4 stroke-[2.2]" />
                   Acquire Specimen
@@ -185,19 +185,19 @@ export default function UserPage() {
               
               <Award className="w-8 h-8 text-brand-gold animate-pulse mb-3" />
               
-              <h3 className="text-xs font-bold text-brand-gold font-serif uppercase tracking-widest">
+              <h3 className="text-sm font-bold text-brand-gold font-serif uppercase tracking-widest">
                 Certificate of Authenticity
               </h3>
               
-              <p className="text-[10px] text-gray-400 font-serif italic leading-relaxed mt-2.5 px-1">
+              <p className="text-xs text-gray-400 font-serif italic leading-relaxed mt-2.5 px-1">
                 "This certifies that Specimen #001 is propagated under biological grade standards, configured with an active smart telemetry processor, and cataloged in the private R.D.N.K. ledger registry."
               </p>
 
               <div className="w-full border-t border-brand-gold/15 my-4 pt-3 flex flex-col items-center">
-                <span className="text-[8px] font-bold text-brand-gold/75 tracking-widest uppercase font-mono">
+                <span className="text-[11px] font-bold text-brand-gold/75 tracking-widest uppercase font-mono">
                   Ingested: June 2026
                 </span>
-                <span className="text-[9px] text-gray-500 font-serif italic mt-0.5">
+                <span className="text-xs text-gray-500 font-serif italic mt-0.5">
                   Verified by: Chief Operator R.D.N.K.
                 </span>
               </div>
@@ -216,10 +216,10 @@ export default function UserPage() {
               </div>
 
               <div className="mt-3.5 w-full">
-                <span className="inline-flex items-center gap-1 text-[8px] font-bold text-gray-400 bg-gray-950 border border-gray-900 px-2 py-0.5 rounded font-mono">
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-gray-400 bg-gray-950 border border-gray-900 px-2 py-0.5 rounded font-mono">
                   QR-VERIFIED: RDNK-TULSI-001
                 </span>
-                <p className="text-[9px] text-gray-500 mt-2 font-mono">
+                <p className="text-xs text-gray-500 mt-2 font-mono">
                   Readings validated &bull; Ownership Transfer: Available
                 </p>
               </div>
